@@ -31,7 +31,7 @@ Future<String> getImageDetails(XFile selectedImage) async {
   if (response.statusCode == 200) {
     final responseData = await response.stream.bytesToString();
     final decodedResponse = json.decode(responseData);
-    final name = decodedResponse["name"]; // Assuming "name" is the key in the response
+    final name = decodedResponse["name"]; // name key rkhi
     return name.toString();
   } else {
     throw Exception('Failed to upload image');
