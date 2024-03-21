@@ -1,7 +1,7 @@
 import 'package:charvis/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/home.dart';
+// import 'screens/home.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

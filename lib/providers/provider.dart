@@ -1,38 +1,35 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-String baseUrl = "http://localhost:3000/";
+String baseUrl = "http://127.0.0.1:5000";
 
 Future<String> getImageDetails(XFile selectedImage) async {
-  // final SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String token = prefs.getString("token")!;
   final Uri uri = Uri.parse("$baseUrl/upload");
 
   final request = http.MultipartRequest("POST", uri);
-  final Map<String, String> headers = {
-    "Content-type": "multipart/form-data"
-  };
+  final Map<String, String> headers = {"Content-type": "multipart/form-data"};
   request.headers.addAll(headers);
 
-  final fileStream = http.ByteStream(selectedImage.openRead());
-  final fileLength = await selectedImage.length();
-  final multipartFile = http.MultipartFile(
-    'file',
-    fileStream,
-    fileLength,
-    filename: selectedImage.path.split('/').last,
+  // Create a MultipartFile from the image file path
+  final multipartFile = await http.MultipartFile.fromPath(
+    'file', // Form field name
+    selectedImage.path,
   );
   request.files.add(multipartFile);
+
+  // Print filename before sending the request
+  print('File being sent: ${selectedImage.path}');
 
   final response = await request.send();
   if (response.statusCode == 200) {
     final responseData = await response.stream.bytesToString();
-    final decodedResponse = json.decode(responseData);
-    final name = decodedResponse["name"]; // name key rkhi
-    return name.toString();
+    final Map<String, dynamic> decodedResponse = json.decode(responseData);
+    final String className = decodedResponse["class"];
+    print("provider.dart mein");
+    print(className);
+    return className;
   } else {
     throw Exception('Failed to upload image');
   }

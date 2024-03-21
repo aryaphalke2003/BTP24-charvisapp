@@ -374,22 +374,22 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
     if (_imageFile != null) {
       print("img non null");
 
-      // var response = await getImageDetails(_imageFile!);
-      // print("response is : ${response}");
-      // response.then((value) {
-      //   print("value is : ${value}");
-      //   setState(() {
-      //     cname = value;
-      //     isBeingUploaded = false;
-      //     isImageUploaded = true;
-      //   });
-      // });
-
-      setState(() {
-        cname = "pie"; // Set cname state
-        isBeingUploaded = false;
-        isImageUploaded = true;
+      Future<String> response = getImageDetails(_imageFile!);
+      print("response is : ${response}");
+      response.then((value) {
+        print("value is : ${value}");
+        setState(() {
+          cname = value;
+          isBeingUploaded = false;
+          isImageUploaded = true;
+        });
       });
+
+      // setState(() {
+      //   cname = "pie"; // Set cname state
+      //   isBeingUploaded = false;
+      //   isImageUploaded = true;
+      // });
     }
   }
 
