@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-String baseUrl = "http://127.0.0.1:5000";
+String baseUrl = "https://9383-138-199-7-232.ngrok-free.app";
 
 Future<String> getImageDetails(XFile selectedImage) async {
   final Uri uri = Uri.parse("$baseUrl/upload");
