@@ -78,7 +78,7 @@
 //                       ),
 //                       const SizedBox(height: 20),
 //                       IconButton(
-                        
+
 //                         onPressed: () async {
 //                           print("cname is : ${cname}");
 //                           List<dynamic>? languages =
@@ -87,12 +87,12 @@
 //                           speak('This is an image of a $cname chart');
 //                         },
 
-//                          icon: Icon(Icons.volume_up), 
-//                          color: blue, 
+//                          icon: Icon(Icons.volume_up),
+//                          color: blue,
 //                          iconSize: 40,
-                         
+
 //                         ),
-              
+
 //                     ],
 //                   )
 //                 : Column(
@@ -197,7 +197,6 @@
 //   }
 // }
 
-
 import 'dart:io';
 import 'package:charvis/components/chartSummary.dart';
 import 'package:flutter/material.dart';
@@ -217,7 +216,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
   XFile? _imageFile;
   bool isImageUploaded = false;
   bool isBeingUploaded = false;
-  bool generateWithGemini=false;
+  bool generateWithGemini = false;
   String cname = "";
 
   late FlutterTts flutterTts;
@@ -290,8 +289,9 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
                           print("cname is : ${cname}");
                           speak('This is an image of a $cname chart');
                         },
-                         icon: Icon(Icons.volume_up), label: Text('Speak'),)
-                      
+                        icon: Icon(Icons.volume_up),
+                        label: Text('Speak'),
+                      )
                     ],
                   )
                 : Column(
@@ -306,17 +306,21 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      CheckboxListTile(
-        title: Text('Generate response using Gemini'),
-        value: generateWithGemini,
-        onChanged: (value) {
-          setState(() {
-            generateWithGemini = value!;
-          });
-           },
-      ),
+                      Container(
+                        padding: EdgeInsets.all(60.0),
+                        child: CheckboxListTile(
+                          title: Text('Generate response using Gemini'),
+                          dense:
+                              true, // Reduce the space between the text and the checkbox
+                          value: generateWithGemini,
+                          onChanged: (value) {
+                            setState(() {
+                              generateWithGemini = value!;
+                            });
+                          },
+                        ),
+                      )
                     ],
-                    
                   ),
       ),
     );
@@ -339,7 +343,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
             children: <Widget>[
               TextButton(
                 onPressed: () {
-                  takePhoto(ImageSource.camera,generateWithGemini);
+                  takePhoto(ImageSource.camera, generateWithGemini);
                   Navigator.pop(context);
                   setState(() {
                     isBeingUploaded = true;
@@ -355,7 +359,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
               ),
               TextButton(
                 onPressed: () {
-                  takePhoto(ImageSource.gallery,generateWithGemini);
+                  takePhoto(ImageSource.gallery, generateWithGemini);
                   Navigator.pop(context);
                   setState(() {
                     isBeingUploaded = true;
@@ -376,7 +380,7 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
     );
   }
 
-  void takePhoto(ImageSource source,bool generateWithGemini) async {
+  void takePhoto(ImageSource source, bool generateWithGemini) async {
     try {
       _imageFile = await _picker.pickImage(source: source, imageQuality: 15);
     } catch (e) {
@@ -386,12 +390,12 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
     if (_imageFile != null) {
       print("img non null");
 
-      Future<String> response = getImageDetails(_imageFile!,generateWithGemini);
-  
+      Future<String> response =
+          getImageDetails(_imageFile!, generateWithGemini);
 
       print("response is : ${response}");
 
-   response.then((value) {
+      response.then((value) {
         print("value is : ${value}");
         setState(() {
           cname = value;
@@ -399,7 +403,6 @@ class _UploadImageWidgetState extends State<UploadImageWidget> {
           isImageUploaded = true;
         });
       });
-
 
       // setState(() {
       //   cname = "pie"; // Set cname state
