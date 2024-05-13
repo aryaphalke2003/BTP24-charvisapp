@@ -1,7 +1,6 @@
 import "dart:convert";
 import 'package:flutter_tts/flutter_tts.dart';
 
-
 class ChartSummary {
   final String chartClass;
   final List<String> axisNames;
@@ -15,14 +14,14 @@ class ChartSummary {
 }
 
 ChartSummary summarizeChartData(String jsonData) {
-  final List<dynamic> data = json.decode(jsonData);
+  final Map<String, dynamic> data = json.decode(jsonData);
 
   // Extract chart class
-  final String chartClass = data[0]['class'];
+  final String chartClass = data['class'];
 
   // Extract axis names
   final List<String> axisNames = [];
-  for (final item in data[0]['data']) {
+  for (final item in data['data']) {
     if (item['role'] == 'x_label') {
       axisNames.add(item['text']);
     }
@@ -30,7 +29,7 @@ ChartSummary summarizeChartData(String jsonData) {
 
   // Extract x-axis data with corresponding values
   final Map<String, dynamic> xAxisData = {};
-  for (final item in data[0]['data']) {
+  for (final item in data['data']) {
     if (item['role'] == 'x_label') {
       xAxisData[item['text']] = item['val'];
     }
@@ -46,7 +45,7 @@ ChartSummary summarizeChartData(String jsonData) {
 // Import the text-to-speech package
 
 // Function to convert ChartSummary to audio
-Future<void> convertToAudio(ChartSummary summary) async {
+Future<String> convertToAudio(ChartSummary summary) async {
   // Initialize the text-to-speech engine
   FlutterTts flutterTts = FlutterTts();
 
@@ -58,6 +57,11 @@ Future<void> convertToAudio(ChartSummary summary) async {
     audioMessage += "$key has value $value. ";
   });
 
+  print("audiomessage");
+  print(audioMessage);
+
   // Use text-to-speech to speak the audio message
   await flutterTts.speak(audioMessage);
+
+  return audioMessage;
 }
